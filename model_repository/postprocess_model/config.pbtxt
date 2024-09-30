@@ -1,0 +1,28 @@
+name: "postprocess_model"
+backend: "python"
+max_batch_size:0
+
+input [
+  {
+    name: "output_ids"
+    data_type: TYPE_INT32
+    dims: [-1, -1]   # The input will be a sequence of token IDs, hence the dynamic dimension (-1)
+  }
+]
+
+output [
+  {
+    name: "output_text"
+    data_type: TYPE_STRING
+    dims: [ -1 ]   # The output is a single string (decoded text) per request
+  }
+]
+
+instance_group [
+  {
+    kind: KIND_CPU
+  }
+]
+
+# Dynamic batching can be enabled if you want Triton to batch multiple requests together.
+# This might improve throughput, especially if many requests are expected in

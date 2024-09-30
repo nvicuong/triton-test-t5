@@ -1,0 +1,68 @@
+name: "ensemble_model"
+platform: "ensemble"
+max_batch_size:0
+
+input [
+  {
+    name: "input_text"
+    data_type: TYPE_STRING
+    dims: [-1]
+  }
+]
+
+output [
+  {
+    name: "output_text"
+    data_type: TYPE_STRING
+    dims: [-1]
+  }
+]
+
+ensemble_scheduling {
+  step [
+    {
+      model_name: "preprocess_model"
+      model_version: -1
+      input_map {
+        key: "input_text"
+        value: "input_text"
+      }
+      output_map {
+        key: "input_ids"
+        value: "input_ids"
+      }
+      output_map {
+        key: "attention_mask"
+        value: "attention_mask"
+      }
+    },
+    {
+      model_name: "t5_trt_model"
+      model_version: -1
+      input_map {
+        key: "input_ids"
+        value: "input_ids"
+      }
+      input_map {
+        key: "attention_mask"
+        value: "attention_mask"
+      }
+      output_map {
+        key: "output_ids"
+        value: "output_ids"
+      }
+    },
+    {
+      model_name: "postprocess_model"
+      model_version: -1
+      input_map {
+        key: "output_ids"
+        value: "output_ids"
+      }
+      output_map {
+        key: "output_text"
+        value: "output_text"
+      }
+    }
+  ]
+}
