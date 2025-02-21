@@ -23,11 +23,11 @@ Ensure you have the following dependencies installed:
 - add model artifacts to `model` directory
 ### Installation
 
-1. Clone the repository:
-   ```sh
+Clone the repository:
+```sh
    git clone https://github.com/nvicuong/triton-test-t5.git
    cd triton-test-t5
-
+```
 
 ### Running the Triton Server
 
